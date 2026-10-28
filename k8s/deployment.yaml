@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: attendance-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: attendance-backend
+  template:
+    metadata:
+      labels:
+        app: attendance-backend
+    spec:
+      containers:
+        - name: attendance-backend
+          image: student-attendance-system-backend:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5000
+          volumeMounts:
+            - name: attendance-data
+              mountPath: /app/data
+      volumes:
+        - name: attendance-data
+          emptyDir: {}

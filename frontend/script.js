@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5000/api";
+const API_URL = "http://localhost:5002/api";
 
 const attendanceBody = document.getElementById("attendanceBody");
 const attendanceDate = document.getElementById("attendanceDate");
@@ -11,6 +11,8 @@ const clearBtn = document.getElementById("clearBtn");
 const reportMonth = document.getElementById("reportMonth");
 const loadReportBtn = document.getElementById("loadReportBtn");
 const reportBody = document.getElementById("reportBody");
+
+const exportCsvBtn = document.getElementById("exportCsvBtn");
 
 const periods = 7;
 
@@ -110,6 +112,8 @@ function setAttendance(button, status) {
             "active-present",
             "active-absent"
         );
+
+        delete btn.dataset.selected;
     });
 
     if (status === "P") {
@@ -150,13 +154,17 @@ async function loadExistingAttendance() {
                     "active-absent"
                 );
 
-                if (record.status === "P") {
-                    button.classList.add("active-present");
-                } else {
-                    button.classList.add("active-absent");
-                }
+                delete button.dataset.selected;
 
-                button.dataset.selected = record.status;
+                if (button.dataset.status === record.status) {
+                    if (record.status === "P") {
+                        button.classList.add("active-present");
+                    } else {
+                        button.classList.add("active-absent");
+                    }
+
+                    button.dataset.selected = record.status;
+                }
             });
         });
 
@@ -255,7 +263,10 @@ clearBtn.addEventListener("click", () => {
         delete button.dataset.selected;
     });
 
-    showMessage("Attendance selections cleared.", "success");
+    showMessage(
+        "Attendance selections cleared.",
+        "success"
+    );
 });
 
 loadReportBtn.addEventListener("click", async () => {
@@ -283,18 +294,18 @@ loadReportBtn.addEventListener("click", async () => {
             const row = document.createElement("tr");
 
             let status;
-let statusClass;
+            let statusClass;
 
-if (student.working_periods === 0) {
-    status = "No Attendance";
-    statusClass = "";
-} else if (student.low_attendance) {
-    status = "Low Attendance";
-    statusClass = "low-attendance";
-} else {
-    status = "Good Attendance";
-    statusClass = "good-attendance";
-}
+            if (student.working_periods === 0) {
+                status = "No Attendance";
+                statusClass = "";
+            } else if (student.low_attendance) {
+                status = "Low Attendance";
+                statusClass = "low-attendance";
+            } else {
+                status = "Good Attendance";
+                statusClass = "good-attendance";
+            }
 
             row.innerHTML = `
                 <td>${student.student_id}</td>
@@ -326,8 +337,6 @@ function showMessage(text, type) {
     }, 4000);
 }
 
-const exportCsvBtn = document.getElementById("exportCsvBtn");
-
 exportCsvBtn.addEventListener("click", async () => {
     const month = reportMonth.value;
 
@@ -348,7 +357,10 @@ exportCsvBtn.addEventListener("click", async () => {
         const report = await response.json();
 
         if (report.length === 0) {
-            showMessage("No report data available.", "error");
+            showMessage(
+                "No report data available.",
+                "error"
+            );
             return;
         }
 
@@ -392,7 +404,9 @@ exportCsvBtn.addEventListener("click", async () => {
         ]
             .map((row) =>
                 row
-                    .map((value) => `"${String(value).replace(/"/g, '""')}"`)
+                    .map((value) =>
+                        `"${String(value).replace(/"/g, '""')}"`
+                    )
                     .join(",")
             )
             .join("\n");
