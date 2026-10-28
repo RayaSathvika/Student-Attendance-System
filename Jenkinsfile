@@ -36,6 +36,18 @@ pipeline {
             }
         }
 
+        stage('Selenium Install') {
+            steps {
+                bat 'cd tests && npm install'
+            }
+        }
+
+        stage('Selenium Test') {
+            steps {
+                bat 'cd tests && node attendance.test.js'
+            }
+        }
+
     }
 
     post {
