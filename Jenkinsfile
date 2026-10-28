@@ -38,7 +38,7 @@ pipeline {
 stage('Kubernetes Test') {
     steps {
         bat 'kubectl version --client'
-        bat 'kubectl get nodes'
+        bat 'set KUBECONFIG=C:\\Users\\rayas\\.kube\\config && kubectl get nodes'
     }
 }
         stage('Selenium Install') {
