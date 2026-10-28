@@ -35,7 +35,12 @@ pipeline {
                 bat 'docker stop attendance-jenkins-test'
             }
         }
-
+stage('Kubernetes Test') {
+    steps {
+        bat 'kubectl version --client'
+        bat 'kubectl get nodes'
+    }
+}
         stage('Selenium Install') {
             steps {
                 bat 'cd tests && npm install'
