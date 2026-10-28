@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Attendance Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Student Attendance Management System</h1>
+        <p>Faculty Attendance Portal</p>
+    </header>
+
+    <main class="container">
+
+        <section class="controls">
+            <div>
+                <label for="className">Class</label>
+                <select id="className">
+                    <option value="CSE (AI & ML)">CSE (AI & ML)</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="attendanceDate">Date</label>
+                <input type="date" id="attendanceDate">
+            </div>
+
+            <button id="loadAttendanceBtn">Load Attendance</button>
+        </section>
+
+        <section class="attendance-section">
+
+            <div class="section-heading">
+                <h2>Daily Attendance</h2>
+                <p>Mark Present (P) or Absent (A) for each period.</p>
+            </div>
+
+            <div class="table-container">
+                <table id="attendanceTable">
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Student Name</th>
+                            <th>P1</th>
+                            <th>P2</th>
+                            <th>P3</th>
+                            <th>P4</th>
+                            <th>P5</th>
+                            <th>P6</th>
+                            <th>P7</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="attendanceBody">
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="actions">
+                <button id="saveAttendanceBtn" class="save-btn">
+                    Save Attendance
+                </button>
+
+                <button id="clearBtn" class="clear-btn">
+                    Clear
+                </button>
+            </div>
+
+            <div id="message"></div>
+
+        </section>
+
+        <section class="report-section">
+
+            <div class="section-heading">
+                <h2>Monthly Attendance Report</h2>
+                <p>View student-wise attendance percentage.</p>
+            </div>
+
+           <div class="report-controls">
+    <input type="month" id="reportMonth">
+
+    <button id="loadReportBtn">
+        Generate Report
+    </button>
+
+    <button id="exportCsvBtn">
+        Export CSV
+    </button>
+</div>
+
+            <div class="table-container">
+                <table id="reportTable">
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Student Name</th>
+                            <th>Working Periods</th>
+                            <th>Present</th>
+                            <th>Absent</th>
+                            <th>Percentage</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="reportBody">
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Student Attendance Management System | CSE (AI & ML)</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

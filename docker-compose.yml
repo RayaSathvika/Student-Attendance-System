@@ -1,0 +1,14 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: attendance-backend
+    ports:
+      - "5001:5000"
+    volumes:
+      - attendance-data:/app/backend
+    restart: unless-stopped
+
+volumes:
+  attendance-data:
