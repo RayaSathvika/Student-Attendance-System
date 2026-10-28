@@ -30,7 +30,7 @@ pipeline {
         stage('Docker Test') {
             steps {
                 bat 'docker run --rm -d --name attendance-jenkins-test -p 5003:5000 student-attendance-system-backend:latest'
-                bat 'timeout /t 5 /nobreak'
+                sleep 5
                 bat 'curl http://localhost:5003/'
                 bat 'docker stop attendance-jenkins-test'
             }
@@ -45,6 +45,7 @@ pipeline {
 
         failure {
             echo 'Student Attendance System CI pipeline failed.'
+            bat 'docker stop attendance-jenkins-test || exit 0'
         }
     }
 }
