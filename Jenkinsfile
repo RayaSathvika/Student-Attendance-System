@@ -41,6 +41,19 @@ stage('Kubernetes Test') {
         bat 'set KUBECONFIG=C:\\Users\\rayas\\.kube\\config && kubectl get nodes'
     }
 }
+
+stage('Kubernetes Deploy') {
+    steps {
+        bat 'docker save student-attendance-system-backend:latest -o attendance-backend.tar'
+        bat 'docker exec -i desktop-control-plane ctr -n k8s.io images import - < attendance-backend.tar'
+        bat 'set KUBECONFIG=C:\\Users\\rayas\\.kube\\config && kubectl apply -f k8s\\deployment.yaml'
+        bat 'set KUBECONFIG=C:\\Users\\rayas\\.kube\\config && kubectl apply -f k8s\\service.yaml'
+        bat 'set KUBECONFIG=C:\\Users\\rayas\\.kube\\config && kubectl rollout restart deployment/attendance-backend'
+        bat 'set KUBECONFIG=C:\\Users\\rayas\\.kube\\config && kubectl rollout status deployment/attendance-backend --timeout=120s'
+        bat 'set KUBECONFIG=C:\\Users\\rayas\\.kube\\config && kubectl get pods'
+        bat 'set KUBECONFIG=C:\\Users\\rayas\\.kube\\config && kubectl get services'
+    }
+}
         stage('Selenium Install') {
             steps {
                 bat 'cd tests && npm install'
